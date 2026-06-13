@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoCheck.cz — PENB a projekce | Ing. Lenka Fedurcová</title>
+<meta name="description" content="Zpracování průkazů energetické náročnosti budov (PENB) a projekční služby. Ing. Lenka Fedurcová, Mšené-lázně a okolí." />
+<style>
+  :root{
+    --yellow:#FFD60A;
+    --yellow-soft:#FFF4B8;
+    --black:#0A0A0A;
+    --ink:#1A1A1A;
+    --muted:#6B6B6B;
+    --line:#1a1a1a;
+    /* třetí barva — teplá zelená "eco moss" */
+    --moss:#2F5D3A;
+    --moss-soft:#E8F0E5;
+    --paper:#F7F4EC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family: Arial, sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:Arial,sans-serif;font-weight:700;line-height:1.1;letter-spacing:-0.02em}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:var(--paper);
+    border-bottom:1.5px solid var(--black);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1200px;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:10px;font-family:Arial;font-weight:700;font-size:20px}
+  .logo-mark{
+    width:34px;height:34px;border-radius:8px;
+    background:var(--yellow);border:1.5px solid var(--black);
+    display:grid;place-items:center;font-size:18px;
+    box-shadow:3px 3px 0 var(--black);
+  }
+  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500}
+  .nav-links a:hover{color:var(--moss)}
+  .nav-cta{
+    background:var(--black);color:var(--yellow);
+    padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;
+    border:1.5px solid var(--black);transition:.2s;
+  }
+  .nav-cta:hover{background:var(--yellow);color:var(--black)}
+  @media(max-width:768px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{padding:80px 0 100px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--moss-soft);color:var(--moss);
+    padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;
+    border:1px solid var(--moss);
+  }
+  .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--moss)}
+  h1{font-size:clamp(2.5rem,5.5vw,4.5rem);margin:20px 0 24px}
+  h1 .accent{
+    background:var(--yellow);padding:0 12px;border-radius:6px;
+    display:inline-block;transform:rotate(-1deg);
+    box-shadow:4px 4px 0 var(--black);border:2px solid var(--black);
+  }
+  .hero p.lead{font-size:1.15rem;color:var(--muted);max-width:540px;margin-bottom:36px}
+  .btn-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    padding:14px 26px;border-radius:999px;font-weight:600;font-size:15px;
+    border:2px solid var(--black);transition:.2s;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{background:var(--yellow);color:var(--black);box-shadow:4px 4px 0 var(--black)}
+  .btn-primary:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--black)}
+  .btn-ghost{background:transparent;color:var(--black)}
+  .btn-ghost:hover{background:var(--black);color:var(--yellow)}
+
+  .hero-card{
+    background:var(--black);color:#fff;padding:36px;border-radius:24px;
+    border:2px solid var(--black);box-shadow:8px 8px 0 var(--yellow);
+    position:relative;
+  }
+  .hero-card h3{color:var(--yellow);font-size:1.4rem;margin-bottom:20px}
+  .scale{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+  .scale-row{display:grid;grid-template-columns:30px 1fr 50px;align-items:center;gap:10px;font-size:13px;font-weight:600}
+  .scale-bar{height:22px;border-radius:4px;position:relative}
+  .s-A{background:#00A651;width:30%}
+  .s-B{background:#50B948;width:40%}
+  .s-C{background:#BFD630;width:55%}
+  .s-D{background:#FFF200;width:70%}
+  .s-E{background:#FDB913;width:80%}
+  .s-F{background:#F37021;width:90%}
+  .s-G{background:#ED1C24;width:100%}
+  .scale-letter{font-family:Arial;font-size:16px}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+  /* SECTION */
+  section{padding:90px 0}
+  .section-head{text-align:center;max-width:680px;margin:0 auto 60px}
+  .section-head .eyebrow{font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--moss);margin-bottom:14px}
+  .section-head h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:16px}
+  .section-head p{color:var(--muted);font-size:1.05rem}
+
+  /* SERVICES */
+  .services{background:#fff;border-top:1.5px solid var(--black);border-bottom:1.5px solid var(--black)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .svc{
+    background:var(--paper);padding:32px;border-radius:20px;
+    border:2px solid var(--black);transition:.25s;
+    position:relative;overflow:hidden;
+  }
+  .svc:hover{transform:translateY(-4px);box-shadow:6px 6px 0 var(--black)}
+  .svc-icon{
+    width:54px;height:54px;border-radius:14px;
+    background:var(--yellow);border:2px solid var(--black);
+    display:grid;place-items:center;font-size:26px;margin-bottom:20px;
+  }
+  .svc:nth-child(2) .svc-icon{background:var(--moss-soft);color:var(--moss)}
+  .svc:nth-child(3) .svc-icon{background:var(--black);color:var(--yellow)}
+  .svc h3{font-size:1.35rem;margin-bottom:10px}
+  .svc p{color:var(--muted);font-size:0.95rem;margin-bottom:18px}
+  .svc ul{list-style:none;font-size:0.9rem}
+  .svc li{padding:6px 0;padding-left:22px;position:relative}
+  .svc li::before{content:"✓";position:absolute;left:0;color:var(--moss);font-weight:700}
+  @media(max-width:900px){.svc-grid{grid-template-columns:1fr}}
+
+  /* PROCESS */
+  .process{background:var(--black);color:#fff}
+  .process .section-head h2{color:#fff}
+  .process .section-head .eyebrow{color:var(--yellow)}
+  .process .section-head p{color:#bbb}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .step{
+    background:rgba(255,255,255,0.04);padding:28px;border-radius:18px;
+    border:1px solid rgba(255,214,10,0.25);
+  }
+  .step-num{
+    display:inline-block;font-family:Arial;font-size:14px;font-weight:700;
+    background:var(--yellow);color:var(--black);padding:4px 10px;border-radius:6px;margin-bottom:14px;
+  }
+  .step h3{font-size:1.1rem;margin-bottom:8px;color:var(--yellow)}
+  .step p{font-size:0.9rem;color:#bbb}
+  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr}}
+
+  /* WHY */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .why-img{
+    background:var(--yellow);border:2px solid var(--black);
+    border-radius:24px;padding:50px;box-shadow:8px 8px 0 var(--black);
+    aspect-ratio:1;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .why-img .big{font-family:Arial;font-size:7rem;font-weight:700;line-height:0.9;color:var(--black)}
+  .why-img .lbl{font-size:0.95rem;font-weight:600;color:var(--black);text-transform:uppercase;letter-spacing:0.1em}
+  .why-img .row{display:flex;justify-content:space-between;align-items:end;gap:20px;border-top:2px solid var(--black);padding-top:20px}
+  .why-features{display:flex;flex-direction:column;gap:24px}
+  .feat{display:flex;gap:18px;align-items:flex-start}
+  .feat-num{
+    font-family:Arial;font-size:1.5rem;font-weight:700;
+    color:var(--moss);min-width:50px;border-right:2px solid var(--moss);padding-right:18px;
+  }
+  .feat h3{font-size:1.15rem;margin-bottom:6px}
+  .feat p{color:var(--muted);font-size:0.95rem}
+  @media(max-width:900px){.why-grid{grid-template-columns:1fr}}
+
+  /* PRICING */
+  .pricing{background:var(--moss);color:#fff}
+  .pricing .section-head h2{color:#fff}
+  .pricing .section-head .eyebrow{color:var(--yellow)}
+  .pricing .section-head p{color:rgba(255,255,255,0.8)}
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .price-card{
+    background:var(--paper);color:var(--black);padding:36px;border-radius:20px;
+    border:2px solid var(--black);
+  }
+  .price-card.featured{background:var(--yellow);box-shadow:8px 8px 0 var(--black);transform:translateY(-10px)}
+  .price-card h3{font-size:1.3rem;margin-bottom:6px}
+  .price-card .price{font-family:Arial;font-size:2.4rem;font-weight:700;margin:14px 0}
+  .price-card .price span{font-size:1rem;font-weight:500;color:var(--muted)}
+  .price-card ul{list-style:none;margin:20px 0;font-size:0.95rem}
+  .price-card li{padding:8px 0;border-bottom:1px dashed rgba(0,0,0,0.15)}
+  .tag{display:inline-block;background:var(--black);color:var(--yellow);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase}
+  @media(max-width:900px){.price-grid{grid-template-columns:1fr}.price-card.featured{transform:none}}
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .contact-card{
+    background:#fff;padding:40px;border-radius:24px;
+    border:2px solid var(--black);box-shadow:6px 6px 0 var(--yellow);
+  }
+  .contact-card h3{font-size:1.5rem;margin-bottom:20px}
+  .info-row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #eee;align-items:center}
+  .info-row:last-child{border:none}
+  .info-icon{
+    width:42px;height:42px;border-radius:10px;background:var(--yellow);
+    border:1.5px solid var(--black);display:grid;place-items:center;font-size:18px;flex-shrink:0;
+  }
+  .info-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em}
+  .info-val{font-weight:600;font-size:0.95rem}
+  form{display:flex;flex-direction:column;gap:14px}
+  label{font-size:13px;font-weight:600;margin-bottom:-8px}
+  input,textarea,select{
+    padding:12px 14px;border:1.5px solid var(--black);border-radius:10px;
+    font-family:inherit;font-size:15px;background:var(--paper);
+  }
+  input:focus,textarea:focus,select:focus{outline:none;box-shadow:3px 3px 0 var(--yellow)}
+  textarea{resize:vertical;min-height:100px}
+  @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+  /* FOOTER */
+  footer{background:var(--black);color:#aaa;padding:50px 0 24px;border-top:3px solid var(--yellow)}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:36px}
+  .foot-grid h4{color:#fff;font-size:1rem;margin-bottom:14px}
+  .foot-grid a{display:block;padding:4px 0;font-size:14px}
+  .foot-grid a:hover{color:var(--yellow)}
+  .foot-brand p{font-size:14px;max-width:340px;margin-top:12px}
+  .foot-bottom{
+    border-top:1px solid #333;padding-top:20px;
+    display:flex;justify-content:space-between;font-size:13px;flex-wrap:wrap;gap:10px;
+  }
+  @media(max-width:760px){.foot-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">⌬</span>
+      <span>ecocheck<span style="color:var(--moss)">.cz</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#sluzby">Služby</a>
+      <a href="#postup">Jak to funguje</a>
+      <a href="#cenik">Ceník</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <a href="#kontakt" class="nav-cta">Nezávazná poptávka</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="badge">Autorizovaný energetický specialista</span>
+        <h1>PENB a <span class="accent">projekce</span> bez stresu.</h1>
+        <p class="lead">Zpracuji vám průkaz energetické náročnosti budovy a projekční podklady rychle, přesně a v souladu s aktuální legislativou. Pro rodinné domy, bytové jednotky i nebytové prostory.</p>
+        <div class="btn-row">
+          <a href="#kontakt" class="btn btn-primary">Poptat PENB →</a>
+          <a href="#sluzby" class="btn btn-ghost">Prohlédnout služby</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Energetická třída budovy</h3>
+        <p style="color:#bbb;font-size:0.92rem">PENB stanoví energetickou náročnost na škále A–G. Pomohu vám zařadit objekt a navrhnout úsporná opatření.</p>
+        <div class="scale">
+          <div class="scale-row"><span class="scale-letter">A</span><div class="scale-bar s-A"></div><span style="color:#00A651">Mim. úsp.</span></div>
+          <div class="scale-row"><span class="scale-letter">B</span><div class="scale-bar s-B"></div><span style="color:#50B948">Velmi úsp.</span></div>
+          <div class="scale-row"><span class="scale-letter">C</span><div class="scale-bar s-C"></div><span style="color:#BFD630">Úsporná</span></div>
+          <div class="scale-row"><span class="scale-letter">D</span><div class="scale-bar s-D"></div><span style="color:#FFF200">Méně úsp.</span></div>
+          <div class="scale-row"><span class="scale-letter">E</span><div class="scale-bar s-E"></div><span style="color:#FDB913">Nehospod.</span></div>
+          <div class="scale-row"><span class="scale-letter">F</span><div class="scale-bar s-F"></div><span style="color:#F37021">Velmi neh.</span></div>
+          <div class="scale-row"><span class="scale-letter">G</span><div class="scale-bar s-G"></div><span style="color:#ED1C24">Mim. neh.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="sluzby" class="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Naše služby</div>
+      <h2>Komplexní řešení pro vaši nemovitost</h2>
+      <p>Od průkazu energetické náročnosti přes projekční práce až po poradenství v oblasti dotací a úsporných opatření.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="svc-icon">⚡</div>
+        <h3>PENB — Průkaz ENB</h3>
+        <p>Zpracování průkazu energetické náročnosti budov dle platné vyhlášky.</p>
+        <ul>
+          <li>Pro novostavby i rekonstrukce</li>
+          <li>K prodeji a pronájmu</li>
+          <li>Bytové i nebytové objekty</li>
+          <li>Vyhotovení do 5–10 dní</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">📐</div>
+        <h3>Projekční činnost</h3>
+        <p>Příprava technických návrhů, dokumentace a grafické práce pro stavby.</p>
+        <ul>
+          <li>Studie a koncepty</li>
+          <li>Dokumentace pro stavební povolení</li>
+          <li>Prováděcí dokumentace</li>
+          <li>Konzultace a posudky</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🌱</div>
+        <h3>Energetické poradenství</h3>
+        <p>Odborná pomoc s úsporami a dotačními programy jako Nová zelená úsporám.</p>
+        <ul>
+          <li>Návrh úsporných opatření</li>
+          <li>Podklady pro dotace NZÚ</li>
+          <li>Optimalizace nákladů</li>
+          <li>Doporučení dodavatelů</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="postup" class="process">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Jak to funguje</div>
+      <h2>Čtyři kroky k hotovému průkazu</h2>
+      <p>Jednoduchý a transparentní proces od první poptávky až po předání dokumentu.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step-num">01</span><h3>Poptávka</h3><p>Pošlete základní informace o objektu — adresu, plochy, výkresy pokud máte.</p></div>
+      <div class="step"><span class="step-num">02</span><h3>Cenová nabídka</h3><p>Do 24 hodin obdržíte konkrétní nabídku a termín dodání.</p></div>
+      <div class="step"><span class="step-num">03</span><h3>Zpracování</h3><p>Provedu výpočty a v případě potřeby místní šetření přímo u vás.</p></div>
+      <div class="step"><span class="step-num">04</span><h3>Předání</h3><p>Hotový PENB obdržíte elektronicky i tištěně s kompletní dokumentací.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-img">
+        <div>
+          <div class="lbl">Praxe v oboru</div>
+          <div class="big">10+</div>
+        </div>
+        <div class="row">
+          <div><div class="lbl">Spokojených klientů</div><div style="font-family:Arial;font-size:2rem;font-weight:700">200+</div></div>
+          <div><div class="lbl">Krajů ČR</div><div style="font-family:Arial;font-size:2rem;font-weight:700">5</div></div>
+        </div>
+      </div>
+      <div class="why-features">
+        <div style="margin-bottom:10px">
+          <div class="eyebrow" style="font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--moss);margin-bottom:14px">Proč právě já</div>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.6rem)">Inženýrská přesnost s lidským přístupem</h2>
+        </div>
+        <div class="feat"><div class="feat-num">01</div><div><h3>Autorizace MPO</h3><p>Oprávnění k zpracování PENB dle zákona č. 406/2000 Sb.</p></div></div>
+        <div class="feat"><div class="feat-num">02</div><div><h3>Rychlé termíny</h3><p>Standardní zpracování průkazu do 5–10 pracovních dnů.</p></div></div>
+        <div class="feat"><div class="feat-num">03</div><div><h3>Férová cena</h3><p>Transparentní ceník bez skrytých poplatků, předem víte za co platíte.</p></div></div>
+        <div class="feat"><div class="feat-num">04</div><div><h3>Lokální dosah</h3><p>Působnost v Ústeckém, Středočeském a Libereckém kraji.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cenik" class="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Orientační ceník</div>
+      <h2>Transparentní ceny bez překvapení</h2>
+      <p>Konečná cena se odvíjí od velikosti a typu objektu. Pro přesnou kalkulaci si vyžádejte nezávaznou nabídku.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Byt</h3>
+        <div class="price">od 2 500 Kč <span></span></div>
+        <ul>
+          <li>PENB bytové jednotky</li>
+          <li>Pro prodej nebo pronájem</li>
+          <li>Předání do 7 dnů</li>
+          <li>Doprava v ceně*</li>
+        </ul>
+        <a href="#kontakt" class="btn btn-ghost" style="width:100%;justify-content:center">Mám zájem</a>
+      </div>
+      <div class="price-card featured">
+        <span class="tag">Nejčastější</span>
+        <h3 style="margin-top:10px">Rodinný dům</h3>
+        <div class="price">od 3 900 Kč <span></span></div>
+        <ul>
+          <li>Kompletní PENB RD</li>
+          <li>Včetně místního šetření</li>
+          <li>Návrh úsporných opatření</li>
+          <li>Podklad pro NZÚ</li>
+        </ul>
+        <a href="#kontakt" class="btn" style="width:100%;justify-content:center;background:var(--black);color:var(--yellow);border-color:var(--black)">Mám zájem</a>
+      </div>
+      <div class="price-card">
+        <h3>Projekce</h3>
+        <div class="price">dle dohody <span></span></div>
+        <ul>
+          <li>Projekční dokumentace</li>
+          <li>Technické návrhy</li>
+          <li>Studie a posudky</li>
+          <li>Individuální kalkulace</li>
+        </ul>
+        <a href="#kontakt" class="btn btn-ghost" style="width:100%;justify-content:center">Poptat</a>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:30px;font-size:13px;opacity:0.8">* Doprava v rámci Ústeckého kraje. Ceny jsou orientační, nejsem plátce DPH.</p>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Kontakt</div>
+      <h2>Pojďme to spolu probrat</h2>
+      <p>Napište nebo zavolejte. Odpovím nejpozději do 24 hodin v pracovní dny.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Kontaktní údaje</h3>
+        <div class="info-row">
+          <div class="info-icon">👤</div>
+          <div><div class="info-label">Provozovatel</div><div class="info-val">Ing. Lenka Fedurcová</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📍</div>
+          <div><div class="info-label">Sídlo</div><div class="info-val">Skalička 48, 411 19 Mšené-lázně</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🏢</div>
+          <div><div class="info-label">IČO</div><div class="info-val">22433830</div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">✉️</div>
+          <div><div class="info-label">E-mail</div><div class="info-val"><a href="mailto:info@ecocheck.cz">info@ecocheck.cz</a></div></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🌐</div>
+          <div><div class="info-label">Web</div><div class="info-val">ecocheck.cz</div></div>
+        </div>
+        <div style="margin-top:20px;padding:16px;background:var(--moss-soft);border-radius:12px;font-size:13px;color:var(--moss);border:1px solid var(--moss)">
+          ✓ Zapsáno v živnostenském rejstříku, MěÚ Roudnice nad Labem. Oprávnění platné na dobu neurčitou.
+        </div>
+      </div>
+      <div class="contact-card">
+        <h3>Nezávazná poptávka</h3>
+        <form onsubmit="event.preventDefault();alert('Děkujeme za poptávku! Ozveme se do 24 hodin.');">
+          <label for="name">Jméno a příjmení</label>
+          <input id="name" type="text" placeholder="Jan Novák" required>
+          <label for="email">E-mail</label>
+          <input id="email" type="email" placeholder="vas@email.cz" required>
+          <label for="type">Typ služby</label>
+          <select id="type">
+            <option>PENB — rodinný dům</option>
+            <option>PENB — bytová jednotka</option>
+            <option>PENB — nebytový prostor</option>
+            <option>Projekční služby</option>
+            <option>Energetické poradenství</option>
+          </select>
+          <label for="msg">Popis objektu / dotaz</label>
+          <textarea id="msg" placeholder="Adresa nemovitosti, plocha, rok výstavby, co potřebujete…"></textarea>
+          <button type="submit" class="btn btn-primary" style="justify-content:center">Odeslat poptávku →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo" style="color:#fff">
+          <span class="logo-mark">⌬</span>
+          <span>ecocheck<span style="color:var(--yellow)">.cz</span></span>
+        </div>
+        <p>Průkazy energetické náročnosti budov a projekční služby pro rodinné domy, byty a nebytové prostory.</p>
+      </div>
+      <div>
+        <h4>Služby</h4>
+        <a href="#sluzby">PENB</a>
+        <a href="#sluzby">Projekce</a>
+        <a href="#sluzby">Energetické poradenství</a>
+        <a href="#cenik">Ceník</a>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="mailto:info@ecocheck.cz">info@ecocheck.cz</a>
+        <a href="#kontakt">Skalička 48, Mšené-lázně</a>
+        <a href="#kontakt">IČO: 22433830</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Ing. Lenka Fedurcová · ecocheck.cz</div>
+      <div>Vyrobeno s důrazem na úspory ⚡</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
