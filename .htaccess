@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Zabezpecena sekce (Pro pristup zadejte heslo)"
+AuthUserFile /.htpasswd
+Require valid-user
